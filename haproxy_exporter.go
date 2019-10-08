@@ -522,6 +522,9 @@ func main() {
 
 	log.Infoln("Listening on", *listenAddress)
 	http.Handle(*metricsPath, promhttp.Handler())
+	http.HandleFunc("/_/health", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`ok`))
+	})
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`<html>
              <head><title>Haproxy Exporter</title></head>
